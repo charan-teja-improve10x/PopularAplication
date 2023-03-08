@@ -33,15 +33,19 @@ public class FacebookItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        FacebookItemViewHolder viewHolder;
+        if (convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.facebook_item,parent,false);
+            viewHolder = new FacebookItemViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (FacebookItemViewHolder) convertView.getTag();
+        }
         FacebookItem item = (FacebookItem) getItem(position);
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.facebook_item,parent,false);
-        TextView fbProfileTxt = view.findViewById(R.id.fab_name_txt);
-        fbProfileTxt.setText(item.name);
-        TextView notificationTxt = view.findViewById(R.id.notification_time_txt);
-        notificationTxt.setText(item.notification);
-        ImageView fbProfileIv = view.findViewById(R.id.fb_profile_iv);
-        Picasso.get().load(item.profileUrl).into(fbProfileIv);
-        return view;
+        viewHolder.fbProfileTxt.setText(item.name);
+        viewHolder.notificationTxt.setText(item.notification);
+        Picasso.get().load(item.profileUrl).into(viewHolder.fbProfileIv);
+        return convertView;
     }
 }
