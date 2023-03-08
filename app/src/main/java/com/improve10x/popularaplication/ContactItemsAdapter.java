@@ -33,15 +33,19 @@ public class ContactItemsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ContactItemViewHolder viewHolder;
+        if (convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.contacts_item,parent,false);
+            viewHolder = new ContactItemViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }else {
+           viewHolder = (ContactItemViewHolder) convertView.getTag();
+        }
         ContactsItem items= (ContactsItem) getItem(position);
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.contacts_item,parent,false);
-        TextView contactTxt = view.findViewById(R.id.contact_number_txt);
-        contactTxt.setText(items.mobileNumber);
-        TextView callTimeTxt = view.findViewById(R.id.calltime_txt);
-        callTimeTxt.setText(items.callTime);
-        ImageView contactProfileIv = view.findViewById(R.id.contact_profile_iv);
-        Picasso.get().load(items.contactUrl).into(contactProfileIv);
-        return view;
+        viewHolder.contactTxt.setText(items.mobileNumber);
+        viewHolder.callTimeTxt.setText(items.callTime);
+        Picasso.get().load(items.contactUrl).into(viewHolder.contactProfileIv);
+        return convertView;
     }
 }
