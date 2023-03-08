@@ -38,17 +38,20 @@ public class GMailItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        MailItemViewHolder viewHolder;
+        if (convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.mail_item,parent,false);
+            viewHolder = new MailItemViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (MailItemViewHolder) convertView.getTag();
+        }
       MailItems items = (MailItems) getItem(position);
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.mail_item,parent,false);
-        TextView nameTxt = view.findViewById(R.id.name_txt);
-        nameTxt.setText(items.name);
-        TextView messageTxt = view.findViewById(R.id.message_txt);
-        messageTxt.setText(items.message);
-        TextView timeTxt = view.findViewById(R.id.time_txt);
-        timeTxt.setText(items.time);
-        ImageView profileIv = view.findViewById(R.id.profile_iv);
-        Picasso.get().load(items.profileUrl).into(profileIv);
-        return view;
+        viewHolder.nameTxt.setText(items.name);
+        viewHolder.messageTxt.setText(items.message);
+        viewHolder.timeTxt.setText(items.time);
+        Picasso.get().load(items.profileUrl).into(viewHolder.profileIv);
+        return convertView;
     }
 }
