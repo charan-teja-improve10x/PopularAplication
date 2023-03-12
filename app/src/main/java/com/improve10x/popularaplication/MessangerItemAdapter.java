@@ -33,7 +33,7 @@ public class MessangerItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        MessageItemViewHolder viewHolder = null;
+        MessageItemViewHolder viewHolder;
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(R.layout.message_item,parent,false);
